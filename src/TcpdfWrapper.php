@@ -4,7 +4,6 @@ namespace TcpdfWrapper;
 
 use \FPDI;
 use \TCPDF_FONTS;
-ini_set('display_errors' , 1);
 /**
 * TcpdfWrapper
 * TcpdfWrapperを記載しやすくするためのラッパー
