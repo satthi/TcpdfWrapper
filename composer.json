@@ -1,0 +1,38 @@
+{
+	"name": "satthi/tcpdfwrapper",
+	"description": "TcpdfWrapper",
+	"type": "php",
+	"keywords": ["php", "tcpdf", "fpdi"],
+	"homepage": "https://github.com/satthi/TcpdfWrapper",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Satoru Hagiwara",
+			"role": "Author"
+		}
+	],
+	"support": {
+		"source": "https://github.com/satthi/TcpdfWrapper"
+	},
+	"require": {
+		"php": ">=5.4.0",
+		"setasign/fpdi-tcpdf": "1.6.1",
+	},
+	"require-dev": {
+		"phpunit/phpunit": "*"
+	},
+	"autoload": {
+		"psr-4": {
+			"TcpdfWrapper\\": "src"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"TcpdfWrapper\\Test\\": "tests"
+		}
+	},
+	"suggest": {
+	},
+	"extra": {
+	}
+}
