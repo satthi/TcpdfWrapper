@@ -28,7 +28,7 @@ class TcpdfWrapper
     /**
     * setPrintHeader
     *
-    * @param boolean $pring 出力フラグ
+    * @param boolean $print 出力フラグ
     * @author hagiwara
     */
     public function setPrintHeader($print)
@@ -39,7 +39,7 @@ class TcpdfWrapper
     /**
     * setPrintFooter
     *
-    * @param boolean $pring 出力フラグ
+    * @param boolean $print 出力フラグ
     * @author hagiwara
     */
     public function setPrintFooter($print)
@@ -119,7 +119,7 @@ class TcpdfWrapper
     /**
     * getFont
     *
-    * @param font $font フォント名
+    * @param string $font フォント名
     * @author hagiwara
     */
     private function getFont($font)
