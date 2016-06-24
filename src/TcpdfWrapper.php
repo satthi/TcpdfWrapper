@@ -102,6 +102,7 @@ class TcpdfWrapper
             'color' => '000000',
             'font' => '',
             'size' => 11,
+            'stretch' => 0,
         ];
         $option = array_merge($default_option ,$option);
 
@@ -113,7 +114,7 @@ class TcpdfWrapper
 
         $this->__pdf->SetXY($option['x'], $option['y']);
         // 文字列を書き込む
-        $this->__pdf->Cell($option['w'], $option['h'], $text, $option['border'], 0, $option['align'], $option['fill'], $option['link']);
+        $this->__pdf->Cell($option['w'], $option['h'], $text, $option['border'], 0, $option['align'], $option['fill'], $option['link'], $option['stretch']);
     }
 
     /**
