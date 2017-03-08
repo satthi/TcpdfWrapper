@@ -103,9 +103,19 @@ class TcpdfWrapper
             'font' => '',
             'size' => 11,
             'stretch' => 0,
+            'auto_size' => false,
         ];
         $option = array_merge($default_option ,$option);
-
+        
+        // 自動で枠に収めるかどうかのチェック
+        if ($option['auto_size'] == true) {
+            $fontDefaultWidth = $this->getStringWidth($text, $option['font'], '', $option['size']);
+            if ($fontDefaultWidth > $option['w']) {
+                $option['align'] ='J';
+                $option['stretch'] =1;
+            }
+        }
+        
         // 書き込む文字列のフォントを指定
         $this->__pdf->SetFont($this->getFont($option['font']), '', $option['size']);
         // 書き込む文字列の文字色を指定
@@ -178,6 +188,20 @@ class TcpdfWrapper
                 'b' => 0,
             ];
         }
+    }
+    
+   /**
+    * getStringWidth
+    *
+    * @param string $text テキスト
+    * @param string $font フォント名
+    * @param string $fontstyle フォントスタイル
+    * @param integer $fontsize サイズ
+    * @param bool $getarray 結果を1文字ずつ配列で返すか
+    * @author hagiwara
+    */
+    public function getStringWidth($text, $font, $fontstyle, $fontsize, $getarray = false) {
+        return $this->__pdf->GetStringWidth( $text, $font, $fontstyle, $fontsize, $getarray);
     }
 
     /**
