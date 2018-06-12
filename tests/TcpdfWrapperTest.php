@@ -1,12 +1,12 @@
 <?php
 namespace TcpdfWrapper\Test;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use TcpdfWrapper\TcpdfWrapper;
 
 require_once('./vendor/autoload.php');
 
-class TcpdfWrapperTest extends PHPUnit_Framework_TestCase
+class TcpdfWrapperTest extends TestCase
 {
 
     public function setUp()
@@ -22,7 +22,8 @@ class TcpdfWrapperTest extends PHPUnit_Framework_TestCase
         $this->__exportFile = $this->__tmpDir . '/export.pdf';
         if (file_exists($this->__exportFile)) {
             unlink($this->__exportFile);
-        }    }
+        }
+    }
 
     /**
      * tearDown method
@@ -106,8 +107,21 @@ class TcpdfWrapperTest extends PHPUnit_Framework_TestCase
             'dpi' => '300',
         ];
         $TcpdfWrapper->setImage($setImagePath, $option);
+        $option = [
+            'w' => 200,
+            'h' => 0,
+            'border' => 0,
+            'align' => 'L',
+            'fill' => false,
+            'x' => 40,
+            'y' => 160,
+            'color' => '000000',
+            'font' => 'kozgopromedium',
+            'size' => 11,
+        ];
+        $TcpdfWrapper->setHtml('<p>備考備考hogehoge</p>', $option);
 
-        //1ページ目
+        //2ページ目
         $TcpdfWrapper->addPage($templateFile, 1);
         $option = [
             'w' => 200,
@@ -162,7 +176,22 @@ class TcpdfWrapperTest extends PHPUnit_Framework_TestCase
             'dpi' => '300',
         ];
         $TcpdfWrapper->setImage($setImagePath, $option);
+        
+        $option = [
+            'w' => 200,
+            'h' => 0,
+            'border' => 0,
+            'align' => 'L',
+            'fill' => false,
+            'x' => 40,
+            'y' => 160,
+            'color' => '000000',
+            'font' => 'kozgopromedium',
+            'size' => 11,
+        ];
+        $TcpdfWrapper->setHtml('<p>備考備考hogehoge222</p>', $option);
         $TcpdfWrapper->write($this->__exportFile);
+        
 
         $this->assertTrue(file_exists($this->__exportFile));
     }
