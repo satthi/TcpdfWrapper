@@ -128,6 +128,42 @@ class TcpdfWrapper
     }
 
     /**
+    * setHtml
+    *
+    * @param string $html HTML
+    * @param array $option オプション
+    * @author hagiwara
+    */
+    public function setHtml($html, $option)
+    {
+        $default_option = [
+            'w' => 0,
+            'h' => 0,
+            'border' => 0,
+            'align' => '',
+            'fill' => false,
+            'link' => '',
+            'x' => 0,
+            'y' => 0,
+            'color' => '000000',
+            'font' => '',
+            'size' => '',
+            'reseth' => true,
+            'autopadding' => false,
+        ];
+        $option = array_merge($default_option ,$option);
+        // 書き込む文字列の文字色を指定
+        //$concertColor = $this->colorCodeConvert($option['color']);
+        //var_dump($concertColor);
+        //$this->__pdf->SetTextColor($concertColor['r'], $concertColor['g'], $concertColor['b']);
+
+        // 書き込む文字列のフォントを指定
+        $this->__pdf->SetFont($this->getFont($option['font']), '', $option['size']);
+        
+        $this->__pdf->writeHTMLCell( $option['w'], $option['h'], $option['x'], $option['y'], $html, $option['border'], 0, $option['fill'], $option['reseth'], $option['align'], $option['autopadding']);
+    }
+
+    /**
     * getFont
     *
     * @param string $font フォント名

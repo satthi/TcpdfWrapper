@@ -22,7 +22,7 @@ composer.json
 ```php
 <?php
 require('./vendor/autoload.php');
-use PhpExcelWrapper\PhpExcelWrapper;
+use TcpdfWrapper\TcpdfWrapper;
 
 class hoge{
 
@@ -169,6 +169,49 @@ $option = [
 ];
 $TcpdfWrapper->setVal('山田　太郎', $option);
 
+/**
+* setHtml
+*
+* @param string $html HTML
+* @param array $option オプション
+* @author hagiwara
+*/
+$option = [
+    //テキストを入れるブロックのサイズ
+    'w' => 200,
+    'h' => 0,
+    /*
+    //ブロックに対する罫線
+    0: 罫線を引かない(デフォルト)
+    1: 罫線を引く
+    L: 左
+    T: 上
+    R: 右
+    B: 下
+    */
+    'border' => 0,
+    /*
+    L or 空文字: 左揃え(既定)
+    C: 中央揃え
+    R: 右揃え
+    J: 両端揃え
+    */
+    'align' => 'C',
+    //ブロック塗りつぶすか
+    'fill' => false,
+    //テキストにリンクを設定
+    'link' => '',
+    //ブロックの配置
+    'x' => 40,
+    'y' => 37,
+    //文字色
+    'color' => '000000',
+    //フォントの種類
+    'font' => 'kozgopromedium',
+    //文字サイズ
+    'size' => 30,
+];
+$TcpdfWrapper->setVal('山田　太郎', $option);
 
 /**
 * setImage
