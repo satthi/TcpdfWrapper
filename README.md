@@ -10,7 +10,7 @@ composer.json
 ```
 {
 	"require": {
-		"satthi/tcpdfwrapper": "*"
+		"satthi/tcpdfwrapper": "~2.0.0"
 	}
 }
 ```

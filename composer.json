@@ -15,8 +15,8 @@
 		"source": "https://github.com/satthi/TcpdfWrapper"
 	},
 	"require": {
-		"php": ">=5.4.0",
-		"setasign/fpdi-tcpdf": "1.6.1"
+		"php": ">=7.2.0",
+		"setasign/fpdi-tcpdf": "^2.0"
 	},
 	"require-dev": {
 		"phpunit/phpunit": "*"

@@ -2,7 +2,7 @@
 
 namespace TcpdfWrapper;
 
-use \FPDI;
+use setasign\Fpdi\Tcpdf\Fpdi;
 use \TCPDF_FONTS;
 /**
 * TcpdfWrapper
@@ -21,7 +21,7 @@ class TcpdfWrapper
     */
     public function __construct()
     {
-        $this->__pdf = new FPDI();
+        $this->__pdf = new Fpdi();
         $this->__tcpdfFonts = new TCPDF_FONTS();
     }
 
