@@ -9,7 +9,7 @@ require_once('./vendor/autoload.php');
 class TcpdfWrapperTest extends TestCase
 {
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         //ディレクトリの作成
