@@ -15,11 +15,11 @@
 		"source": "https://github.com/satthi/TcpdfWrapper"
 	},
 	"require": {
-		"php": ">=7.1.0",
+		"php": ">=5.6.0",
 		"setasign/fpdi-tcpdf": "^2.0"
 	},
 	"require-dev": {
-		"phpunit/phpunit": "*"
+		"phpunit/phpunit": "<=7.4.1"
 	},
 	"autoload": {
 		"psr-4": {
