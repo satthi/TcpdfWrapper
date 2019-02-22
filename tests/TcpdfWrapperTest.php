@@ -9,7 +9,7 @@ require_once('./vendor/autoload.php');
 class TcpdfWrapperTest extends TestCase
 {
 
-    public function setUp(): void
+    public function setUp()
     {
         parent::setUp();
         //ディレクトリの作成
@@ -30,7 +30,7 @@ class TcpdfWrapperTest extends TestCase
      *
      * @return void
      */
-    public function tearDown(): void
+    public function tearDown()
     {
         parent::tearDown();
     }
