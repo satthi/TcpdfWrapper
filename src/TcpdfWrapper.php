@@ -225,6 +225,17 @@ class TcpdfWrapper
             ];
         }
     }
+
+    /**
+     * setAutoPageBreak
+     * page brackeを自動で行うかどうか。画像を下部に埋め込む際には切っておいたほうが良さげ
+     * @param int $auto
+     * @param int $margin
+     */
+    public function setAutoPageBreak($auto, $margin = 0)
+    {
+        $this->__pdf->SetAutoPageBreak($auto, $margin);
+    }
     
    /**
     * getStringWidth
