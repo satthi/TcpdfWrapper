@@ -173,9 +173,10 @@ class TcpdfWrapper
     *
     * @param string $text テキスト
     * @param array $option オプション
+    * @param array $rotateOption 回転オプション(縦書き対応用)
     * @author hagiwara
     */
-    public function setVal($text, $option)
+    public function setVal($text, $option, $rotateOption = [])
     {
         $default_option = [
             'w' => 0,
@@ -210,8 +211,21 @@ class TcpdfWrapper
         $this->__pdf->SetTextColor($concertColor['r'], $concertColor['g'], $concertColor['b']);
 
         $this->__pdf->SetXY($option['x'], $option['y']);
+        if (!empty($rotateOption)) {
+            $default_rotate_option = [
+                'angle' => 0,
+                'x' => '',
+                'y' => '',
+            ];
+            $rotateOption = array_merge($default_rotate_option ,$rotateOption);
+            $this->__pdf->Rotate($rotateOption['angle'], $rotateOption['x'], $rotateOption['y']);
+        }
         // 文字列を書き込む
         $this->__pdf->Cell($option['w'], $option['h'], $text, $option['border'], 0, $option['align'], $option['fill'], $option['link'], $option['stretch']);
+        // 元に戻しておく
+        if (!empty($rotateOption)) {
+            $this->__pdf->Rotate($rotateOption['angle'] * -1, $rotateOption['x'], $rotateOption['y']);
+        }
     }
 
     /**
