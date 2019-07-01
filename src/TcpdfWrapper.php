@@ -14,6 +14,93 @@ class TcpdfWrapper
     private $__fonts = [];
     private $__tcpdfFonts;
 
+    const TATEGAKI_TYPE_NORMAL = 1;
+    const TATEGAKI_TYPE_ROUND = 2;
+    const TATEGAKI_TYPE_RIGHT = 3;
+
+    // publicにしておくので必要に応じて設定
+    public $setTategakiType = [
+        self::TATEGAKI_TYPE_ROUND => [
+            'ー',
+            '-',
+            '＝',
+            '=',
+            '(',
+            ')',
+            '（',
+            '）',
+            '>',
+            '<',
+            '＞',
+            '＜',
+            '》',
+            '《',
+            '≫',
+            '≪',
+            '{',
+            '｛',
+            '}',
+            '｝',
+            '[',
+            ']',
+            '［',
+            '］',
+            '「',
+            '」',
+            '～',
+            '~',
+            '|',
+            '｜',
+            '『',
+            '』',
+            '【',
+            '】',
+            '〔',
+            '〕',
+            '‹',
+            '›',
+            '〖',
+            '〗',
+            '〚',
+            '〛',
+            '〘',
+            '〙',
+        ],
+        self::TATEGAKI_TYPE_RIGHT => [
+            'ぁ',
+            'ぃ',
+            'ぅ',
+            'ぇ',
+            'ぉ',
+            'ゃ',
+            'ゅ',
+            'ょ',
+            'っ',
+            'ァ',
+            'ィ',
+            'ぅ',
+            'ェ',
+            'ォ',
+            'ャ',
+            'ュ',
+            'ョ',
+            'ッ',
+            'ｧ',
+            'ｨ',
+            'ｩ',
+            'ｪ',
+            'ｫ',
+            'ｬ',
+            'ｭ',
+            'ｮ',
+            'ｯ',
+            '、',
+            '。',
+            '.',
+            ',',
+        ],
+    ];
+
     /**
     * __construct
     *
@@ -125,6 +212,91 @@ class TcpdfWrapper
         $this->__pdf->SetXY($option['x'], $option['y']);
         // 文字列を書き込む
         $this->__pdf->Cell($option['w'], $option['h'], $text, $option['border'], 0, $option['align'], $option['fill'], $option['link'], $option['stretch']);
+    }
+
+    /**
+    * setValTategaki
+    * 縦書き対応/改行は対応しきれない。折り返しもしない
+    *
+    * @param string $text テキスト
+    * @param array $option オプション
+    * @author hagiwara
+    */
+    public function setValTategaki($text, $option)
+    {
+        $default_option = [
+            'h' => 0,
+            'border' => 0,
+            'fill' => false,
+            'link' => '',
+            'x' => 0,
+            'y' => 0,
+            'color' => '000000',
+            'font' => '',
+            'size' => 11,
+        ];
+        $option = array_merge($default_option ,$option);
+
+        // 設定している固定の高さとする
+        $wordHeight = $option['h'];
+        // 文字の幅は対応する文字の一番幅の大きい文字とする
+        $wordWidth = max($this->getStringWidth($text, $option['font'], '', $option['size'], true));
+        $splitWord = preg_split("//u", $text, -1, PREG_SPLIT_NO_EMPTY);
+        $top = $option['y'];
+        foreach ($splitWord as $word) {
+            // 一文字ことにオプションを設定
+            $partsOption = $option;
+            $partsOption['w'] = $wordWidth;
+            $partsOption['h'] = $wordHeight;
+            $partsOption['auto_size'] = false;
+            $partsOption['align'] = 'C';
+            $partsOption['stretch'] = '0';
+            $partsOption['y'] = $top;
+
+            // 縦書き対応
+            $rotateOption = [];
+            switch ($this->getTategakiWordType($word)) {
+                // 回転が必要な文字
+                case self::TATEGAKI_TYPE_ROUND:
+                    $rotateOption = [
+                        'angle' => -90,
+                        'x' => $partsOption['x'] + ($partsOption['w'] * 0.5),
+                        'y' => $partsOption['y'] + ($partsOption['h'] * 0.5),
+                    ];
+                    break;
+                // 小さいゃゅょ、句読点を少し右寄せする
+                case self::TATEGAKI_TYPE_RIGHT:
+                    $partsOption['x'] += $partsOption['size'] * 0.05;
+                    break;
+
+                default:
+                    break;
+            }
+
+            $this->setVal($word, $partsOption, $rotateOption);
+
+            // 固定の高さ分文字幅を取る
+            $top += $wordHeight;
+        }
+    }
+
+    /**
+    * getTategakiWordType
+    * 縦書きに必要な種別の取得
+    *
+    * @param string $word テキスト
+    * @return int
+    * @author hagiwara
+    */
+    private function getTategakiWordType($word)
+    {
+        if (in_array($word, $this->setTategakiType[self::TATEGAKI_TYPE_ROUND], true)) {
+            return self::TATEGAKI_TYPE_ROUND;
+        } elseif (in_array($word, $this->setTategakiType[self::TATEGAKI_TYPE_RIGHT], true)) {
+            return self::TATEGAKI_TYPE_RIGHT;
+        } else {
+            return self::TATEGAKI_TYPE_NORMAL;
+        }
     }
 
     /**

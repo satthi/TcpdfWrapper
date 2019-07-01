@@ -170,6 +170,43 @@ $option = [
 $TcpdfWrapper->setVal('山田　太郎', $option);
 
 /**
+* setValTategaki(改行などはうまく動かないと思う
+*
+* @param string $text テキスト
+* @param array $option オプション
+* @author hagiwara
+*/
+// 縦書き設定は、必要に応じて`$tcpdfWrapper->setTategakiType`でメンバ変数を修正してください
+$option = [
+    // 1文字ごとの鷹さ
+    'h' => 10,
+    /*
+    //ブロックに対する罫線
+    0: 罫線を引かない(デフォルト)
+    1: 罫線を引く
+    L: 左
+    T: 上
+    R: 右
+    B: 下
+    */
+    'border' => 0,
+    //ブロック塗りつぶすか
+    'fill' => false,
+    //テキストにリンクを設定
+    'link' => '',
+    //ブロックの配置
+    'x' => 40,
+    'y' => 37,
+    //文字色
+    'color' => '000000',
+    //フォントの種類
+    'font' => 'kozgopromedium',
+    //文字サイズ
+    'size' => 30,
+];
+$TcpdfWrapper->setValTategaki('山田　太郎', $option);
+
+/**
 * setHtml
 *
 * @param string $html HTML
