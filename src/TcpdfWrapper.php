@@ -14,9 +14,9 @@ class TcpdfWrapper
     private $__fonts = [];
     private $__tcpdfFonts;
 
-    public const TATEGAKI_TYPE_NORMAL = 1;
-    public const TATEGAKI_TYPE_ROUND = 2;
-    public const TATEGAKI_TYPE_RIGHT = 3;
+    const TATEGAKI_TYPE_NORMAL = 1;
+    const TATEGAKI_TYPE_ROUND = 2;
+    const TATEGAKI_TYPE_RIGHT = 3;
 
     // publicにしておくので必要に応じて設定
     public $setTategakiType = [
