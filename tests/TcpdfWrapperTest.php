@@ -196,4 +196,18 @@ class TcpdfWrapperTest extends TestCase
         $this->assertTrue(file_exists($this->__exportFile));
     }
 
+    public function test_check_if_font_setting_cache_file_output()
+    {
+        $TcpdfWrapper = new TcpdfWrapper();
+        $TcpdfWrapper->setPrintHeader(false);
+        $TcpdfWrapper->setPrintFooter(false);
+
+        $font = 'testfont';
+        $fontSettingCacheFileOutDir = dirname(__FILE__) . '/../tmp/';
+        $fontFile = dirname(__FILE__) . '/file/testfont.ttf';
+        $TcpdfWrapper->setFontSettingCacheFileOutDir($fontSettingCacheFileOutDir);
+        $TcpdfWrapper->setFont($font, $fontFile);
+        // var_dump($fontFile);exit;
+        // var_dump(file_exists($fontFile));exit;
+    }
 }
