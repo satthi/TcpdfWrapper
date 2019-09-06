@@ -232,7 +232,7 @@ class TcpdfWrapper
         // 書き込む文字列のフォントを指定（フォントの設定キャッシュファイルの出力先がセットされていない場合はデフォルト値）
         $fontFilePath = '';
         if (!empty($this->fontSettingCacheFileOutDir)) {
-            $fontFilePath = $this->generateFontFilePath($option['font']);
+            $fontFilePath = $this->generateFontSettingCacheFilePath($option['font']);
         }
         $this->__pdf->SetFont($this->getFont($option['font']), '', $option['size'], $fontFilePath);
         // 書き込む文字列の文字色を指定
@@ -375,7 +375,7 @@ class TcpdfWrapper
         // 書き込む文字列のフォントを指定（フォントの設定キャッシュファイルの出力先がセットされていない場合はデフォルト値）
         $fontFilePath = '';
         if (!empty($this->fontSettingCacheFileOutDir)) {
-            $fontFilePath = $this->generateFontFilePath($option['font']);
+            $fontFilePath = $this->generateFontSettingCacheFilePath($option['font']);
         }
         $this->__pdf->SetFont($this->getFont($option['font']), '', $option['size'], $fontFilePath);
         
@@ -493,7 +493,7 @@ class TcpdfWrapper
      * @return string
      * @author kawano
      */
-    private function generateFontFilePath($font)
+    private function generateFontSettingCacheFilePath($font)
     {
         // build new font name for TCPDF compatibility
         $font_path_parts = pathinfo($font);
