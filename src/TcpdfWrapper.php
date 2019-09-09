@@ -484,6 +484,7 @@ class TcpdfWrapper
     /**
      * フォント設定キャッシュファイルのパスを返す
      * $this->fontSettingCacheFileOutDir (上記ファイルの出力先ディレクトリ) を指定した場合のみ呼ばれる
+     * [関数中ののアルゴリズムで生成されたフォント名].php が作られているので、そのpathを返す
      * @param string $font フォント名
      * @return string
      * @author kawano
@@ -513,7 +514,6 @@ class TcpdfWrapper
             return $this->fontSettingCacheFileOutDir . 'tcpdffont' . '.php';
         }
 
-        // 出力ディレクトリを設定した場合、そこに [生成されたフォント名].php で生成されているので、そのpathを返す
         return $this->fontSettingCacheFileOutDir . $fontName . '.php';
     }
 }
