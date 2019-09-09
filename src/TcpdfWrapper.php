@@ -152,11 +152,12 @@ class TcpdfWrapper
 
     /**
      * setFontFilePath
+     * setFont($name, $path)で指定された$pathをプロパティにセット
      *
      * @param string $fontFilePath 読み込みフォントファイルのパス
      * @return void
      */
-    public function setFontFilePath($fontFilePath)
+    private function setFontFilePath($fontFilePath)
     {
         $this->fontFilePath = $fontFilePath;
     }
@@ -171,6 +172,8 @@ class TcpdfWrapper
     public function setFont($name, $path)
     {
         $this->__fonts[$name] = $this->__tcpdfFonts->addTTFfont($path, '', '', 32, $this->fontSettingCacheFileOutDir);
+        // 読み込むフォントファイルのパスを設定
+        $this->setFontFilePath($path);
     }
 
     /**
@@ -484,7 +487,7 @@ class TcpdfWrapper
     /**
      * フォント設定キャッシュファイルのパスを返す
      * $this->fontSettingCacheFileOutDir (上記ファイルの出力先ディレクトリ) を指定した場合のみ呼ばれる
-     * [関数中ののアルゴリズムで生成されたフォント名].php が作られているので、そのpathを返す
+     * [関数中のアルゴリズムで生成されたフォント名].php が作られているので、そのpathを返す
      * @param string $font フォント名
      * @return string
      * @author kawano
