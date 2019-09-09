@@ -489,12 +489,13 @@ class TcpdfWrapper
     private function generateFontSettingCacheFilePath($font)
     {
         // フォントの設定キャッシュファイル出力先ディレクトリが未指定の場合
-        if (!empty($this->fontSettingCacheFileOutDir)) {
+        if (empty($this->fontSettingCacheFileOutDir)) {
             return '';
         }
 
         // TCPDFの処理の互換性のために、設定キャッシュファイル名を新たに生成
-        // 名称生成のアルゴリズムは右記参照： https://github.com/tecnickcom/TCPDF/blob/master/include/tcpdf_fonts.php#L79 〜 https://github.com/tecnickcom/TCPDF/blob/master/include/tcpdf_fonts.php#L92
+        // 名称生成のアルゴリズムは、下記URLと同様の処理で出力される必要があるため、コピーしている
+        // 参照： https://github.com/tecnickcom/TCPDF/blob/master/include/tcpdf_fonts.php#L79 〜 https://github.com/tecnickcom/TCPDF/blob/master/include/tcpdf_fonts.php#L92
         $fontPathParts = pathinfo($font);
         if (!isset($fontPathParts['filename'])) {
             $fontPathParts['filename'] = substr($fontPathParts['basename'], 0, -(strlen($fontPathParts['extension']) + 1));
@@ -508,6 +509,7 @@ class TcpdfWrapper
             return 'tcpdffont' . '.php';
         }
 
+        // 出力ディレクトリを設定した場合、そこに [生成されたフォント名].php で生成されているので、そのpathを返す
         return $this->fontSettingCacheFileOutDir . $fontName . '.php';
     }
 }
