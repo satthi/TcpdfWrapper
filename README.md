@@ -31,6 +31,9 @@ class hoge{
         $TcpdfWrapper->setPrintHeader(false);
         $TcpdfWrapper->setPrintFooter(false);
 
+        // フォント設定キャッシュファイルの出力先ディレクトリを指定（任意。指定しない場合はデフォルト /vendor/tecnickcom/tcpdf/fonts に保存される）
+        $this->pdfWriter->setFontSettingCacheFileOutDir(TMP . 'pdf/');
+
         //独自フォント利用の場合
         $TcpdfWrapper->setFont('testfont', dirname(__FILE__) . '/fonts/○○.ttf');
 
