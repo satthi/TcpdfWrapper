@@ -229,9 +229,13 @@ class TcpdfWrapperTest extends TestCase
         $privateFunctionGenerateFontSettingCacheFilePath = $reflection->getMethod('generateFontSettingCacheFilePath');
         $privateFunctionGenerateFontSettingCacheFilePath->setAccessible(true);
 
+        // 出力先ディレクトリを指定
         $TcpdfWrapper->setFontSettingCacheFileOutDir($fontSettingCacheFileOutDir);
+        // フォントをセット
         $TcpdfWrapper->setFont($font, $fontFile);
+        // 出力したファイルのパスを取得
         $fontFile = $privateFunctionGenerateFontSettingCacheFilePath->invoke($TcpdfWrapper, $font);
+        // パスにファイルがあるか確認
         $this->assertTrue(file_exists($fontFile));
     }
 }
