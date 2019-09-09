@@ -13,6 +13,8 @@ class TcpdfWrapper
     private $__pdf;
     private $__fonts = [];
     private $__tcpdfFonts;
+    // 読み込みフォントファイルのパス
+    private $fontFilePath;
     // フォントの設定キャッシュファイル出力先ディレクトリ
     private $fontSettingCacheFileOutDir = '';
 
@@ -127,17 +129,6 @@ class TcpdfWrapper
     }
 
     /**
-     * getfontSettingCacheFileOutDir
-     *
-     * @return string
-     * @author kawano
-     */
-    public function getFontSettingCacheFileOutDir()
-    {
-        return $this->fontSettingCacheFileOutDir;
-    }
-
-    /**
     * setPrintHeader
     *
     * @param boolean $print 出力フラグ
@@ -157,6 +148,17 @@ class TcpdfWrapper
     public function setPrintFooter($print)
     {
         $this->__pdf->setPrintFooter($print);
+    }
+
+    /**
+     * setFontFilePath
+     *
+     * @param string $fontFilePath 読み込みフォントファイルのパス
+     * @return void
+     */
+    public function setFontFilePath($fontFilePath)
+    {
+        $this->fontFilePath = $fontFilePath;
     }
 
     /**
@@ -228,10 +230,10 @@ class TcpdfWrapper
                 $option['stretch'] =1;
             }
         }
-        
+
         // 書き込む文字列のフォントを指定（フォントの設定キャッシュファイルの出力先がセットされていない場合はデフォルト値）
-        $fontFilePath = $this->generateFontSettingCacheFilePath($option['font']);
-        $this->__pdf->SetFont($this->getFont($option['font']), '', $option['size'], $fontFilePath);
+        $fontSettingCacheFilePath = $this->generateFontSettingCacheFilePath($option['font']);
+        $this->__pdf->SetFont($this->getFont($option['font']), '', $option['size'], $fontSettingCacheFilePath);
         // 書き込む文字列の文字色を指定
         $concertColor = $this->colorCodeConvert($option['color']);
         $this->__pdf->SetTextColor($concertColor['r'], $concertColor['g'], $concertColor['b']);
@@ -370,8 +372,8 @@ class TcpdfWrapper
         //$this->__pdf->SetTextColor($concertColor['r'], $concertColor['g'], $concertColor['b']);
 
         // 書き込む文字列のフォントを指定（フォントの設定キャッシュファイルの出力先がセットされていない場合はデフォルト値）
-        $fontFilePath = $this->generateFontSettingCacheFilePath($option['font']);
-        $this->__pdf->SetFont($this->getFont($option['font']), '', $option['size'], $fontFilePath);
+        $fontSettingCacheFilePath = $this->generateFontSettingCacheFilePath($option['font']);
+        $this->__pdf->SetFont($this->getFont($option['font']), '', $option['size'], $fontSettingCacheFilePath);
         
         $this->__pdf->writeHTMLCell( $option['w'], $option['h'], $option['x'], $option['y'], $html, $option['border'], 0, $option['fill'], $option['reseth'], $option['align'], $option['autopadding']);
     }
@@ -493,20 +495,22 @@ class TcpdfWrapper
             return '';
         }
 
-        // TCPDFの処理の互換性のために、設定キャッシュファイル名を新たに生成
-        // 名称生成のアルゴリズムは、下記URLと同様の処理で出力される必要があるため、コピーしている
+        // TCPDFの処理の互換性のために、設定キャッシュファイルには、以下（参照）のアルゴリズムで、元の名称から改めて名称が付け直されている
         // 参照： https://github.com/tecnickcom/TCPDF/blob/master/include/tcpdf_fonts.php#L79 〜 https://github.com/tecnickcom/TCPDF/blob/master/include/tcpdf_fonts.php#L92
-        $fontPathParts = pathinfo($font);
+        // そのため、設定キャッシュファイルは、同様のアルゴリズムで生成した上で、そのパスを指定する必要がある
+        $fontPathParts = pathinfo($this->fontFilePath);
         if (!isset($fontPathParts['filename'])) {
             $fontPathParts['filename'] = substr($fontPathParts['basename'], 0, -(strlen($fontPathParts['extension']) + 1));
         }
+        // ファイル名を生成
         $fontName = strtolower($fontPathParts['filename']);
         $fontName = preg_replace('/[^a-z0-9_]/', '', $fontName);
         $search  = array('bold', 'oblique', 'italic', 'regular');
         $replace = array('b', 'i', 'i', '');
         $fontName = str_replace($search, $replace, $fontName);
+        // $fontNameが空であった場合、 "tcpdffont" という名称が設定キャッシュファイルに付けられている
         if (empty($fontName)) {
-            return 'tcpdffont' . '.php';
+            return $this->fontSettingCacheFileOutDir . 'tcpdffont' . '.php';
         }
 
         // 出力ディレクトリを設定した場合、そこに [生成されたフォント名].php で生成されているので、そのpathを返す
