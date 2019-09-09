@@ -18,6 +18,17 @@ class TcpdfWrapperTest extends TestCase
             mkdir($this->__tmpDir);
         }
 
+        // フォント設定キャッシュファイルがあれば削除
+        if (file_exists($this->__tmpDir . '/testfont.ctg.z')) {
+            unlink($this->__tmpDir . '/testfont.ctg.z');
+        }
+        if (file_exists($this->__tmpDir . '/testfont.php')) {
+            unlink($this->__tmpDir . '/testfont.php');
+        }
+        if (file_exists($this->__tmpDir . '/testfont.z')) {
+            unlink($this->__tmpDir . '/testfont.z');
+        }
+
         //出力ファイルがいたら削除
         $this->__exportFile = $this->__tmpDir . '/export.pdf';
         if (file_exists($this->__exportFile)) {
@@ -196,4 +207,35 @@ class TcpdfWrapperTest extends TestCase
         $this->assertTrue(file_exists($this->__exportFile));
     }
 
+    /**
+     * test_checkIfFontSettingCacheFileOutDir
+     * フォント設定キャッシュファイルが、指定したディレクトリに出力されるかのテスト
+     *
+     * @return void
+     * @author kawano
+     */
+    public function test_checkIfFontSettingCacheFileOutDir()
+    {
+        $font = 'testfont';
+        $fontSettingCacheFileOutDir = dirname(dirname(__FILE__)) . '/tmp/';
+        $fontFile = dirname(__FILE__) . '/file/testfont.ttf';
+
+        $TcpdfWrapper = new TcpdfWrapper();
+        $TcpdfWrapper->setPrintHeader(false);
+        $TcpdfWrapper->setPrintFooter(false);
+
+        // private function generateFontSettingCacheFilePath() を使う用意
+        $reflection = new \ReflectionClass($TcpdfWrapper);
+        $privateFunctionGenerateFontSettingCacheFilePath = $reflection->getMethod('generateFontSettingCacheFilePath');
+        $privateFunctionGenerateFontSettingCacheFilePath->setAccessible(true);
+
+        // 出力先ディレクトリを指定
+        $TcpdfWrapper->setFontSettingCacheFileOutDir($fontSettingCacheFileOutDir);
+        // フォントをセット
+        $TcpdfWrapper->setFont($font, $fontFile);
+        // 出力したファイルのパスを取得
+        $fontFile = $privateFunctionGenerateFontSettingCacheFilePath->invoke($TcpdfWrapper, $font);
+        // パスにファイルがあるか確認
+        $this->assertTrue(file_exists($fontFile));
+    }
 }
