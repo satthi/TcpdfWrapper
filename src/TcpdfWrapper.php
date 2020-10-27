@@ -222,9 +222,13 @@ class TcpdfWrapper
             'size' => 11,
             'stretch' => 0,
             'auto_size' => false,
+            'fstroke' => 0,
         ];
         $option = array_merge($default_option ,$option);
         
+        // 太字のセット
+        $this->__pdf->setTextRenderingMode($option['fstroke']);
+
         // 自動で枠に収めるかどうかのチェック
         if ($option['auto_size'] == true) {
             $fontDefaultWidth = $this->getStringWidth($text, $option['font'], '', $option['size']);
@@ -279,8 +283,11 @@ class TcpdfWrapper
             'color' => '000000',
             'font' => '',
             'size' => 11,
+            'fstroke' => 0,
         ];
         $option = array_merge($default_option ,$option);
+
+        $this->__pdf->setTextRenderingMode($option['fstroke']);
 
         // 設定している固定の高さとする
         $wordHeight = $option['h'];
