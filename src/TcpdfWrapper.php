@@ -261,6 +261,8 @@ class TcpdfWrapper
         if (!empty($rotateOption)) {
             $this->__pdf->Rotate($rotateOption['angle'] * -1, $rotateOption['x'], $rotateOption['y']);
         }
+        // 太字も元に戻しておく
+        $this->__pdf->setTextRenderingMode();
     }
 
     /**
@@ -330,6 +332,8 @@ class TcpdfWrapper
             // 固定の高さ分文字幅を取る
             $top += $wordHeight;
         }
+        // 太字も元に戻しておく
+        $this->__pdf->setTextRenderingMode();
     }
 
     /**
