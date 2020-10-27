@@ -52,6 +52,7 @@ class hoge{
             //独自フォント利用
             'font' => 'testfont',
             'size' => 30,
+            'fstroke' => 0.3,
         ];
         $TcpdfWrapper->setVal('山田　太郎', $option);
 
@@ -80,6 +81,7 @@ class hoge{
             'color' => '000000',
             'font' => 'kozgopromedium',
             'size' => 11,
+            'fstroke' => 0,
         ];
         $TcpdfWrapper->setVal('福岡県テストテスト○○-○○', $option);
 
@@ -169,6 +171,8 @@ $option = [
     'font' => 'kozgopromedium',
     //文字サイズ
     'size' => 30,
+    // 文字の太さ 0が普通
+    'fstroke' => 0.3,
 ];
 $TcpdfWrapper->setVal('山田　太郎', $option);
 
@@ -206,6 +210,8 @@ $option = [
     'font' => 'kozgopromedium',
     //文字サイズ
     'size' => 30,
+    // 文字の太さ 0が普通
+    'fstroke' => 0.3,
 ];
 $TcpdfWrapper->setValTategaki('山田　太郎', $option);
 
