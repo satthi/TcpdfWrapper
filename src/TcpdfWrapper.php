@@ -227,6 +227,8 @@ class TcpdfWrapper
         $option = array_merge($default_option ,$option);
         
         // 太字のセット
+        $concertColor = $this->colorCodeConvert($option['color']);
+        $this->__pdf->SetDrawColor($concertColor['r'], $concertColor['g'], $concertColor['b']);
         $this->__pdf->setTextRenderingMode($option['fstroke']);
 
         // 自動で枠に収めるかどうかのチェック
@@ -242,7 +244,6 @@ class TcpdfWrapper
         $fontSettingCacheFilePath = $this->generateFontSettingCacheFilePath($option['font']);
         $this->__pdf->SetFont($this->getFont($option['font']), '', $option['size'], $fontSettingCacheFilePath);
         // 書き込む文字列の文字色を指定
-        $concertColor = $this->colorCodeConvert($option['color']);
         $this->__pdf->SetTextColor($concertColor['r'], $concertColor['g'], $concertColor['b']);
 
         $this->__pdf->SetXY($option['x'], $option['y']);
@@ -289,6 +290,8 @@ class TcpdfWrapper
         ];
         $option = array_merge($default_option ,$option);
 
+        $concertColor = $this->colorCodeConvert($option['color']);
+        $this->__pdf->SetDrawColor($concertColor['r'], $concertColor['g'], $concertColor['b']);
         $this->__pdf->setTextRenderingMode($option['fstroke']);
 
         // 設定している固定の高さとする
