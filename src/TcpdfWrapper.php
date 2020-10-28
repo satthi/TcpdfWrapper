@@ -222,9 +222,13 @@ class TcpdfWrapper
             'size' => 11,
             'stretch' => 0,
             'auto_size' => false,
+            'fstroke' => 0,
         ];
         $option = array_merge($default_option ,$option);
         
+        // 太字のセット
+        $this->__pdf->setTextRenderingMode($option['fstroke']);
+
         // 自動で枠に収めるかどうかのチェック
         if ($option['auto_size'] == true) {
             $fontDefaultWidth = $this->getStringWidth($text, $option['font'], '', $option['size']);
@@ -257,6 +261,8 @@ class TcpdfWrapper
         if (!empty($rotateOption)) {
             $this->__pdf->Rotate($rotateOption['angle'] * -1, $rotateOption['x'], $rotateOption['y']);
         }
+        // 太字も元に戻しておく
+        $this->__pdf->setTextRenderingMode();
     }
 
     /**
@@ -279,8 +285,11 @@ class TcpdfWrapper
             'color' => '000000',
             'font' => '',
             'size' => 11,
+            'fstroke' => 0,
         ];
         $option = array_merge($default_option ,$option);
+
+        $this->__pdf->setTextRenderingMode($option['fstroke']);
 
         // 設定している固定の高さとする
         $wordHeight = $option['h'];
@@ -323,6 +332,8 @@ class TcpdfWrapper
             // 固定の高さ分文字幅を取る
             $top += $wordHeight;
         }
+        // 太字も元に戻しておく
+        $this->__pdf->setTextRenderingMode();
     }
 
     /**
