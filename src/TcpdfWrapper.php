@@ -432,6 +432,28 @@ class TcpdfWrapper
         $this->__pdf->Image($image, $option['x'], $option['y'], $option['w'], $option['h'], '', $option['link'], '', $option['resize'], $option['dpi']);
     }
 
+    /**
+    * setImageSvg
+    *
+    * @param string $image 画像パス
+    * @param array $option オプション
+    * @author hagiwara
+    */
+    public function setImageSvg($image, $option)
+    {
+        $default_option = [
+            'x' => 0,
+            'y' => 0,
+            'w' => 0,
+            'h' => 0,
+            'link' => '',
+            'align' => '',
+            'palign' => '',
+            'border' => 0,
+        ];
+        $option = array_merge($default_option ,$option);
+        $this->__pdf->ImageSVG($image, $option['x'], $option['y'], $option['w'], $option['h'], $option['link'], $option['align'], $option['palign'], $option['border']);
+    }
 
     /**
     * colorCodeConvert
